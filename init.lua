@@ -1,2 +1,1 @@
-require("cerdasjanastu.remap")
-require("cerdasjanastu.set")
+require("cerdasjanastu")
