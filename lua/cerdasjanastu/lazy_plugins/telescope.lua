@@ -4,8 +4,14 @@ return {
         name = "telescope",
         tag = "0.1.8",
         dependencies = {
-            "nvim-lua/plenary.nvim",
-            lazy = true
+            {
+                "nvim-lua/plenary.nvim",
+                lazy = false
+            },
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release"
+            },
         },
         config = function()
             require("telescope").setup({
