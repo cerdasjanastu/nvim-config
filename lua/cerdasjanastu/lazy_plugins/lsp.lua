@@ -13,8 +13,8 @@ return {
         "j-hui/fidget.nvim",
     },
 
-    config = function() 
-        local cmp = require('cmp')
+    config = function()
+        local cmp = require("cmp")
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(
             "force",
@@ -31,6 +31,9 @@ return {
                 -- "mypy",  -- manual install using MasonInstall or install from Mason
                 "pyright",
                 "ruff",
+                "html",
+                "cssls",
+                "lua_ls",
             },
 
             handlers = {
@@ -40,7 +43,7 @@ return {
                     })
                 end,
 
-                zls = function()
+                ["zls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.zls.setup({
                         root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
@@ -54,7 +57,6 @@ return {
                     })
                     vim.g.zig_fmt_parse_errors = 0
                     vim.g.zig_fmt_autosave = 0
-
                 end,
 
                 ["lua_ls"] = function()
@@ -79,14 +81,15 @@ return {
         cmp.setup({
             snippet = {
                 expand = function(args)
-                    require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                    require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
                 end,
             },
             mapping = cmp.mapping.preset.insert({
                 ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
                 ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
                 ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-                ["<C-Space>"] = cmp.mapping.complete(),
+                ["<A-y>"] = cmp.mapping.complete(),
+                ["<CR>"] = cmp.mapping.confirm({ select = true }),
             }),
             sources = cmp.config.sources({
                 { name = "nvim_lsp" },
