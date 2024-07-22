@@ -12,7 +12,7 @@ return {
         name = "rose-pine",
         lazy = false,
         config = function()
-            require('rose-pine').setup({
+            require("rose-pine").setup({
                 disable_background = true,
                 styles = {
                     italic = false,
