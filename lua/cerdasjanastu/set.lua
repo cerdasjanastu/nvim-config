@@ -14,8 +14,12 @@ vim.opt.wrap = false
 
 vim.opt.swapfile = false
 vim.opt.backup = false
+<<<<<<< HEAD
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 -- vim.opt.undodir = vim.fn.stdpath("data") .. "/undo/undodir"
+=======
+vim.opt.undodir = vim.fn.stdpath("data") .. "/undo/undodir"
+>>>>>>> ae5bd9c479ff587b560d5748996c7274fa5c51b5
 vim.opt.undofile = true
 
 vim.opt.splitright = true
