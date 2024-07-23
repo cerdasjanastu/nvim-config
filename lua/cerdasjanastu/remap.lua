@@ -12,6 +12,11 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
+--
+-- paste from clipboard
+-- vim.keymap.set("x", "<leader>p", "\"_dP")
+-- vim.keymap.set({"n", "v"}, "<leader>p", "\"*p") --windows
+-- vim.keymap.set("i", "<C-v>", "<C-o>\"+p<C-c>")  -- windows
 
 vim.keymap.set("x", "<leader>p", "\"_dP")
 
