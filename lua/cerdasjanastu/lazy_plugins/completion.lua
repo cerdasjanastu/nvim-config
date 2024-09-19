@@ -1,7 +1,7 @@
 return {
     {
         "hrsh7th/nvim-cmp",
-        event = "InsertEnter",
+        event = { "InsertEnter", "CmdLineEnter" },
         dependencies = {
             {
                 "L3MON4D3/LuaSnip",
@@ -17,6 +17,7 @@ return {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
+            "ray-x/cmp-sql",
         },
         config = function()
             local cmp = require("cmp")
@@ -53,6 +54,7 @@ return {
                     { name = "buffer" },
                     { name = "path" },
                     { name = "cmdline" },
+                    { name = "calc" },
                 }),
             })
 
@@ -66,6 +68,14 @@ return {
                     header = "",
                     prefix = "",
                 },
+            })
+
+            cmp.setup.filetype({"sql"}, {
+                sources = {
+                    { name = "vim-dadbod-completion" },
+                    { name = "sql" },
+                    { name = "buffer" },
+                }
             })
         end,
     }
