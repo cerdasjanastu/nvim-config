@@ -1,22 +1,13 @@
 return {
     {
         "hrsh7th/nvim-cmp",
-        event = { "InsertEnter", "CmdLineEnter" },
+        event = "InsertEnter",
         dependencies = {
-            {
-                "L3MON4D3/LuaSnip",
-                build = (function()
-                    if vim.fn.has "win32" == 1 or vim.fn.executable "make" == 0 then
-                        return
-                    end
-                    return "make install_jsregexp"
-                end)(),
-            },
+            "L3MON4D3/LuaSnip",
             "saadparwaiz1/cmp_luasnip",
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
-            "hrsh7th/cmp-cmdline",
             "ray-x/cmp-sql",
         },
         config = function()
@@ -28,15 +19,18 @@ return {
             cmp.setup({
                 snippet = {
                     expand = function(args)
-                        require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+                        luasnip.lsp_expand(args.body)
                     end,
                 },
+                completion = { completeopt = "menu,menuone,noinsert" },
+
                 mapping = cmp.mapping.preset.insert({
                     ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
                     ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
                     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
                     ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+                    ["<C-Space>"] = cmp.mapping.complete {},
                     ["<C-l>"] = cmp.mapping(function()
                         if luasnip.expand_or_locally_jumpable() then
                             luasnip.expand_or_jump()
@@ -49,22 +43,21 @@ return {
                     end, { "i", "s" }),
                 }),
                 sources = cmp.config.sources({
+                    { name = "lazydev", group_index = 0 },
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
                     { name = "buffer" },
                     { name = "path" },
                     { name = "cmdline" },
-                    { name = "calc" },
                 }),
             })
 
             vim.diagnostic.config({
-                -- update_in_insert = true,
                 float = {
                     focusable = false,
                     style = "minimal",
                     border = "rounded",
-                    source = "always",
+                    source = "if_many",
                     header = "",
                     prefix = "",
                 },
