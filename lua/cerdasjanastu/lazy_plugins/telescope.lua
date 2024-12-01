@@ -51,6 +51,7 @@ return {
             vim.keymap.set("n", "<leader>sd", builtin.diagnostics, {})
             vim.keymap.set("n", '<leader>sh', builtin.help_tags, {})
             vim.keymap.set("n", "<leader>ss", builtin.builtin, {})
+            vim.keymap.set("n", "<leader>sk", builtin.keymaps, {})
             vim.keymap.set("n", "<leader>s.", builtin.oldfiles, {})
             vim.keymap.set("n", "<leader><leader>", builtin.buffers, {})
 
