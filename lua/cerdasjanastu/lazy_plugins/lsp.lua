@@ -98,6 +98,9 @@ return {
                         },
                     },
                 },
+                ts_ls = {
+                    filetypes = {"html", "js", "ts"}
+                },
             }
 
             require("fidget").setup({})
@@ -121,6 +124,8 @@ return {
                         require("lspconfig")[server_name].setup(server)
                     end,
                 },
+                ensure_installed = ensure_installed,
+                automatic_installation = {},
             })
         end,
     }

@@ -30,13 +30,14 @@ return {
                         n = {
                             ["<C-c>"] = "close"
                         }
-                    }
+                    },
+                    file_ignore_patterns = { "%.git/", "%venv/", "%node_modules/" },
                 },
             })
 
             local builtin = require("telescope.builtin")
 
-            vim.keymap.set("n", "<leader>sf", builtin.find_files, {})
+            vim.keymap.set("n", "<leader>sf", function() builtin.find_files({hidden = true}) end, {})
             vim.keymap.set("n", "<leader>sit", builtin.git_files, {})
             vim.keymap.set("n", "<leader>sw", function()
                 local word = vim.fn.expand("<cword>")
@@ -54,6 +55,7 @@ return {
             vim.keymap.set("n", "<leader>sk", builtin.keymaps, {})
             vim.keymap.set("n", "<leader>s.", builtin.oldfiles, {})
             vim.keymap.set("n", "<leader><leader>", builtin.buffers, {})
+            vim.keymap.set("n", "<leader>ft", builtin.treesitter, {})
 
             vim.keymap.set("n", "<leader>/", function()
                 builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown {

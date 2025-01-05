@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = "\\"
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.api.nvim_set_keymap("i", "<C-H>", "<C-W>", {noremap = true})
@@ -31,4 +31,8 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+vim.keymap.set("n", "<leader><C-f>", "<cmd>silent !tmux neww tmux-windowizer<CR>")
+
+-- yank all
+vim.keymap.set("n", "<leader>gy", "ggVG\"+y<C-O>")
 
