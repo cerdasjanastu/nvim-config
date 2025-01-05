@@ -10,15 +10,15 @@ return {
     {
         "rose-pine/neovim",
         name = "rose-pine",
-        lazy = false,
         config = function()
             require("rose-pine").setup({
+                variant = "moon",
+                dark_variant = "moon",
                 disable_background = true,
                 styles = {
                     italic = false,
                 },
             })
-            ColorMyPencils()
         end
     },
 
@@ -28,7 +28,6 @@ return {
 
     {
         "ellisonleao/gruvbox.nvim",
-        name = "gruvbox",
         config = function()
             require("gruvbox").setup({
                 terminal_colors = true, -- add neovim terminal colors
@@ -59,21 +58,23 @@ return {
 
     {
         "folke/tokyonight.nvim",
+        lazy = false,
+        priority = 1000,
         config = function()
             require("tokyonight").setup({
-                style = "night", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-                transparent = true, -- Enable this to disable setting the background color
-                terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
+                style = "night",
+                on_colors = function() end,
+                on_highlights = function() end,
+                transparent = true,
+                terminal_colors = true,
                 styles = {
-                    -- Style to be applied to different syntax groups
-                    -- Value is any valid attr-list value for `:help nvim_set_hl`
                     comments = { italic = false },
                     keywords = { italic = false },
-                    -- Background styles. Can be "dark", "transparent" or "normal"
-                    sidebars = "dark", -- style for sidebars, see below
-                    floats = "dark", -- style for floating windows
+                    sidebars = "dark",
+                    floats = "dark",
                 },
             })
+            ColorMyPencils("tokyonight")
         end
     },
 }
