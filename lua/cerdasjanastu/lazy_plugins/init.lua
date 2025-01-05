@@ -14,6 +14,12 @@ return {
             signs = false
         }
     },
+
+    {
+        "godlygeek/tabular",
+        cmd = { "Tabularize" }, -- Load only when Tabularize is used
+    },
+
     -- {
     --     "echasnovski/mini.nvim",
     --     config = function()
