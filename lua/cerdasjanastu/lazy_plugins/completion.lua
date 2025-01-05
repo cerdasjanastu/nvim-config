@@ -9,6 +9,7 @@ return {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "ray-x/cmp-sql",
+            "R-nvim/cmp-r",
         },
         config = function()
             local cmp = require("cmp")
@@ -68,6 +69,15 @@ return {
                     { name = "vim-dadbod-completion" },
                     { name = "sql" },
                     { name = "buffer" },
+                }
+            })
+
+            cmp.setup.filetype({"r"}, {
+                sources = {
+                    { name = "cmp_r" },
+                    { name = "luasnip" },
+                    { name = "nvim_lsp" },
+                    { name = "path" },
                 }
             })
         end,
