@@ -9,6 +9,8 @@ return {
         end)(),
         dependencies = { "mstuttgart/vscode-odoo-snippets" },
         config = function ()
+            local ls = require("luasnip")
+            ls.filetype_extend("javascript", {"jsdoc"})
             require("luasnip.loaders.from_vscode").lazy_load({})
         end
     },
