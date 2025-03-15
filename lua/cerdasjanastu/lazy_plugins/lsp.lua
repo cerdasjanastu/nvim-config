@@ -76,7 +76,6 @@ return {
                             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
                         end, "[T]oggle Inlay [H]ints")
                     end
-
                 end,
             })
 
@@ -99,8 +98,11 @@ return {
                     },
                 },
                 ts_ls = {
-                    filetypes = {"html", "js", "ts"}
                 },
+                gopls = {},
+                tailwindcss = {
+                    filetypes = { "html", "mdx", "javascript", "typescript", "javascriptreact", "typescriptreact", "vue", "svelte" }
+                }
             }
 
             require("fidget").setup({})
@@ -110,7 +112,7 @@ return {
             vim.list_extend(ensure_installed, {
                 "lua_ls",
                 "pyright",
-                "ruff",
+                -- "ruff",
                 "html",
                 "cssls",
             })
