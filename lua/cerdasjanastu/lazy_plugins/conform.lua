@@ -6,7 +6,7 @@ return {
     keys = {
         {
             -- Customize or remove this keymap to your liking
-            "<leader>f",
+            "<leader>fm",
             function()
                 require("conform").format({ async = true })
             end,
@@ -20,7 +20,12 @@ return {
     opts = {
         -- Define your formatters
         formatters_by_ft = {
-            javascript = { "prettierd", "prettier", stop_after_first = true },
+            javascript = {
+                "prettierd",
+                "prettier",
+                stop_after_first = true,
+            },
+            go = { "gofmt" }
         },
         -- Set default options
         default_format_opts = {
