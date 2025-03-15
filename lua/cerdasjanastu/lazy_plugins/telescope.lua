@@ -31,7 +31,7 @@ return {
                             ["<C-c>"] = "close"
                         }
                     },
-                    file_ignore_patterns = { "%.git/", "%venv/", "%node_modules/" },
+                    file_ignore_patterns = { "%.git/", "venv/", "%node_modules/", "%npm/" },
                 },
             })
 
