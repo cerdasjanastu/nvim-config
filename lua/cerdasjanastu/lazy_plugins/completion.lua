@@ -57,7 +57,7 @@ return {
                     ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
                     ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
                     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-                    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+                    ["<C-g>"] = cmp.mapping.scroll_docs(4),
                     ["<C-y>"] = cmp.mapping.confirm({ select = true }),
                     ["<C-Space>"] = cmp.mapping.complete {},
                     ["<C-l>"] = cmp.mapping(function()
@@ -78,6 +78,7 @@ return {
                     { name = "buffer" },
                     { name = "path" },
                     { name = "cmdline" },
+                    { name = "vim-dadbod-completion" },
                 }),
                 formatting = {
                     expandable_indicator = true,
