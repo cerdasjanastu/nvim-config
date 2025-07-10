@@ -14,7 +14,11 @@ return {
                 cond = function()
                     return vim.fn.executable "make" == 1
                 end,
-           },
+            },
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = "make",
+            },
         },
         config = function()
             require("telescope").setup({
@@ -33,11 +37,21 @@ return {
                     },
                     file_ignore_patterns = { "%.git/", "venv/", "%node_modules/", "%npm/" },
                 },
+                extensions = {
+                    fzf = {
+                        fuzzy = true,                    -- false will only do exact matching
+                        override_generic_sorter = true,  -- override the generic sorter
+                        override_file_sorter = true,     -- override the file sorter
+                        case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                                         -- the default case_mode is "smart_case"
+                    }
+                }
             })
 
+            require("telescope").load_extension("fzf")
             local builtin = require("telescope.builtin")
 
-            vim.keymap.set("n", "<leader>sf", function() builtin.find_files({hidden = true}) end, {})
+            vim.keymap.set("n", "<leader>sf", function() builtin.find_files({ hidden = true }) end, {})
             vim.keymap.set("n", "<leader>sit", builtin.git_files, {})
             vim.keymap.set("n", "<leader>sw", function()
                 local word = vim.fn.expand("<cword>")
@@ -73,7 +87,6 @@ return {
             vim.keymap.set("n", "<leader>sn", function()
                 builtin.find_files { cwd = vim.fn.stdpath "config" }
             end, {})
-
         end
     },
 }

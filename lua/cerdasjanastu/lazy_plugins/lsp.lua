@@ -70,6 +70,7 @@ return {
                     map("K", vim.lsp.buf.hover, "Hover Documentation")
 
                     local client = vim.lsp.get_client_by_id(event.data.client_id)
+                    vim.diagnostic.config({ virtual_text = true })
                     -- Toggle inlay hint
                     if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
                         map("<leader>th", function()

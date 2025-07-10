@@ -49,4 +49,4 @@ local function ToggleTerminal()
     end
 end
 
-vim.keymap.set({"n", "t"}, "<leader>tt", ToggleTerminal)
+vim.keymap.set({"n", "t"}, "\\tt", ToggleTerminal)

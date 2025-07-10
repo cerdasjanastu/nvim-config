@@ -6,6 +6,11 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
+vim.opt.exrc = true
+vim.opt.secure = true
+
+vim.opt.fixendofline = true
+
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 

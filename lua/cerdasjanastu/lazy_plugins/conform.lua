@@ -25,7 +25,8 @@ return {
                 "prettier",
                 stop_after_first = true,
             },
-            go = { "gofmt" }
+            go = { "gofmt" },
+            py = { "ruff" },
         },
         -- Set default options
         default_format_opts = {
