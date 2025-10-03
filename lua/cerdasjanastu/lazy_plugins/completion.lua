@@ -1,129 +1,125 @@
 return {
     {
-        "hrsh7th/nvim-cmp",
-        event = "InsertEnter",
+        "saghen/blink.compat",
+        version = "2.*",
+        lazy = true,
+        opts = {},
+    },
+
+    {
+        "saghen/blink.cmp",
         dependencies = {
             "L3MON4D3/LuaSnip",
-            "saadparwaiz1/cmp_luasnip",
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
+            "kristijanhusak/vim-dadbod-ui",
             "ray-x/cmp-sql",
             "R-nvim/cmp-r",
         },
-        config = function()
-            local cmp = require("cmp")
-            local luasnip = require("luasnip")
-            luasnip.config.setup({})
+        version = "1.*",
+        ---@module "blink.cmp"
+        ---@type blink.cmp.Config
+        opts = {
+            -- All presets have the following mappings:
+            -- C-space: Open menu or open docs if already open
+            -- C-n/C-p or Up/Down: Select next/previous item
+            -- C-e: Hide menu
+            -- C-k: Toggle signature help (if signature.enabled = true)
+            --
+            -- See :h blink-cmp-config-keymap for defining your own keymap
+            keymap = {
+                preset        = "none",
+                ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+                ["<C-e>"]     = { "hide" },
+                ["<C-y>"]     = { "select_and_accept" },
+                ["<Up>"]      = { "select_prev", "fallback" },
+                ["<Down>"]    = { "select_next", "fallback" },
+                ["<C-p>"]     = { "select_prev", "fallback_to_mappings" },
+                ["<C-n>"]     = { "select_next", "fallback_to_mappings" },
+                ["<C-g>"]     = { "scroll_documentation_up", "fallback" },
+                ["<C-b>"]     = { "scroll_documentation_down", "fallback" },
+                ["<C-l>"]     = { "snippet_forward", "fallback" },
+                ["<C-h>"]     = { "snippet_backward", "fallback" },
+                ["<C-k>"]     = { "show_signature", "hide_signature", "fallback" },
+            },
 
-            local kind_icons = {
-                Text = "",
-                Method = "󰆧",
-                Function = "󰊕",
-                Constructor = "",
-                Field = "󰇽",
-                Variable = "󰂡",
-                Class = "󰠱",
-                Interface = "",
-                Module = "",
-                Property = "󰜢",
-                Unit = "",
-                Value = "󰎠",
-                Enum = "",
-                Keyword = "󰌋",
-                Snippet = "",
-                Color = "󰏘",
-                File = "󰈙",
-                Reference = "",
-                Folder = "󰉋",
-                EnumMember = "",
-                Constant = "󰏿",
-                Struct = "",
-                Event = "",
-                Operator = "󰆕",
-                TypeParameter = "󰅲",
+            snippets = {
+                preset = "luasnip",
+            },
+
+            appearance = {
+                nerd_font_variant = "mono",
+            },
+
+            completion = {
+                documentation = {
+                    window = {
+                        border = "rounded",
+                    },
+                    auto_show = true,
+                    auto_show_delay_ms = 100,
+                },
+                list = {
+                    selection = {
+                        preselect = true,
+                        auto_insert = false,
+                    },
+                },
+                menu = {
+                    draw = {
+                        columns = {
+                            { "label",       "label_description", gap = 1 },
+                            { "kind_icon",   "kind" },
+                            { "source_name", gap = 1 },
+                        },
+                    },
+                },
+                ghost_text = {
+                    enabled = false,
+                },
+            },
+
+            signature = {
+                enabled = false,
+                trigger = {
+                    enabled = true,
+                },
+            },
+
+            sources = {
+                default = { "lsp", "path", "snippets", "buffer" },
+
+                per_filetype = {
+                    sql = { "snippets", "dadbod", "buffer", "sql" },
+                    lua = { inherit_defaults = true, "lazydev" },
+                    r = { "snippets", "buffer", "cmp_r" },
+                },
+                providers = {
+                    lsp = { fallbacks = {} },  -- we want buffer showed regardless lsp active or not returning items
+                    dadbod = {
+                        name = "Dadbod",
+                        module = "vim_dadbod_completion.blink",
+                    },
+                    sql = {
+                        name = "sql",
+                        module = "blink.compat.source",
+                    },
+                    lazydev = {
+                        name = "LazyDev",
+                        module = "lazydev.integrations.blink",
+                    },
+                    cmp_r = {
+                        name = "cmp_r",
+                        module = "blink.compat.source",
+                    },
+                },
+            },
+
+            fuzzy = {
+                implementation = "prefer_rust",
+                max_typos = function(s) return math.floor(#s / 4) end,
+                use_frecency = true,
+                use_proximity = true,
             }
-
-            local cmp_select = { behavior = cmp.SelectBehavior.Select }
-            cmp.setup({
-                snippet = {
-                    expand = function(args)
-                        luasnip.lsp_expand(args.body)
-                    end,
-                },
-                completion = { completeopt = "menu,menuone,noinsert" },
-
-                mapping = cmp.mapping.preset.insert({
-                    ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-                    ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-                    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-                    ["<C-g>"] = cmp.mapping.scroll_docs(4),
-                    ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-                    ["<C-Space>"] = cmp.mapping.complete {},
-                    ["<C-l>"] = cmp.mapping(function()
-                        if luasnip.expand_or_locally_jumpable() then
-                            luasnip.expand_or_jump()
-                        end
-                    end, { "i", "s" }),
-                    ["<C-h>"] = cmp.mapping(function()
-                        if luasnip.locally_jumpable(-1) then
-                            luasnip.jump(-1)
-                        end
-                    end, { "i", "s" }),
-                }),
-                sources = cmp.config.sources({
-                    { name = "lazydev", group_index = 0 },
-                    { name = "nvim_lsp" },
-                    { name = "luasnip" },
-                    { name = "buffer" },
-                    { name = "path" },
-                    { name = "cmdline" },
-                    { name = "vim-dadbod-completion" },
-                }),
-                formatting = {
-                    expandable_indicator = true,
-                    fields = {"abbr", "kind", "menu"},
-                    format = function(entry, vim_item)
-                        vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind) -- This concatenates the icons with the name of the item kind
-                        vim_item.menu = ({
-                            buffer = "[Buffer]",
-                            nvim_lsp = "[LSP]",
-                            luasnip = "[LuaSnip]",
-                            nvim_lua = "[Lua]",
-                            latex_symbols = "[LaTeX]",
-                        })[entry.source.name]
-                        return vim_item
-                    end
-                },
-            })
-
-            vim.diagnostic.config({
-                float = {
-                    focusable = false,
-                    style = "minimal",
-                    border = "rounded",
-                    source = "if_many",
-                    header = "",
-                    prefix = "",
-                },
-            })
-
-            cmp.setup.filetype({"sql"}, {
-                sources = {
-                    { name = "vim-dadbod-completion" },
-                    { name = "sql" },
-                    { name = "buffer" },
-                }
-            })
-
-            cmp.setup.filetype({"r"}, {
-                sources = {
-                    { name = "cmp_r" },
-                    { name = "luasnip" },
-                    { name = "nvim_lsp" },
-                    { name = "path" },
-                }
-            })
-        end,
-    }
+        },
+        opts_extend = { "sources.default" }
+    },
 }

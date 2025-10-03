@@ -21,7 +21,8 @@ return {
             "williamboman/mason-lspconfig.nvim",
             "WhoIsSethDaniel/mason-tool-installer.nvim",
             "j-hui/fidget.nvim",
-            'hrsh7th/cmp-nvim-lsp',
+            -- 'hrsh7th/cmp-nvim-lsp',
+            "saghen/blink.cmp",
         },
 
         config = function()
@@ -67,7 +68,11 @@ return {
 
                     -- Opens a popup that displays documentation about the word under your cursor
                     --  See `:help K` for why this keymap.
-                    map("K", vim.lsp.buf.hover, "Hover Documentation")
+                    map("K", function()
+                        vim.lsp.buf.hover({
+                            border = "rounded",
+                        })
+                    end, "Hover Documentation")
 
                     local client = vim.lsp.get_client_by_id(event.data.client_id)
                     vim.diagnostic.config({ virtual_text = true })
@@ -84,11 +89,21 @@ return {
             capabilities = vim.tbl_deep_extend(
                 "force",
                 capabilities,
-                require("cmp_nvim_lsp").default_capabilities()
+                require("blink.cmp").get_lsp_capabilities({}, false)
             )
 
             local servers = {
                 pyright = {},
+                clangd = {},
+                ruff = {
+                    init_options = {
+                        settings = {
+                            -- example settings
+                            lint = { enable = true },
+                            format = { enable = true },
+                        },
+                    },
+                },
                 lua_ls = {
                     settings = {
                         Lua = {
@@ -98,9 +113,9 @@ return {
                         },
                     },
                 },
-                ts_ls = {
-                },
+                ts_ls = {},
                 gopls = {},
+                yamlls = {},
                 tailwindcss = {
                     filetypes = { "html", "mdx", "javascript", "typescript", "javascriptreact", "typescriptreact", "vue", "svelte" }
                 }
@@ -113,7 +128,7 @@ return {
             vim.list_extend(ensure_installed, {
                 "lua_ls",
                 "pyright",
-                -- "ruff",
+                "ruff",
                 "html",
                 "cssls",
             })
@@ -129,6 +144,24 @@ return {
                 },
                 ensure_installed = ensure_installed,
                 automatic_installation = {},
+                automatic_enable = {
+                    "clangd",
+                    "pyright",
+                    "ruff",
+                    "lua_ls",
+                    "gopls",
+                    "yaml",
+                },
+            })
+
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("disable-ruff-hover", { clear = true }),
+                callback = function(event)
+                    local client = vim.lsp.get_client_by_id(event.data.client_id)
+                    if client and client.name == "ruff" then
+                        client.server_capabilities.hoverProvider = false
+                    end
+                end,
             })
         end,
     }

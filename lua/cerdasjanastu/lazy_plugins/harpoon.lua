@@ -19,10 +19,15 @@ return {
             -- vim.keymap.set("n", "<A-k>", function() harpoon:list():select(3) end)
             -- vim.keymap.set("n", "<A-l>", function() harpoon:list():select(4) end)
 
-            vim.keymap.set("n", "<c-h>", function() harpoon:list():select(1) end)
-            vim.keymap.set("n", "<c-j>", function() harpoon:list():select(2) end)
+            -- vim.keymap.set("n", "<c-h>", function() harpoon:list():select(1) end)
+            -- vim.keymap.set("n", "<c-j>", function() harpoon:list():select(2) end)
+            -- vim.keymap.set("n", "<c-k>", function() harpoon:list():select(3) end)
+            -- vim.keymap.set("n", "<c-l>", function() harpoon:list():select(4) end)
+
+            vim.keymap.set("n", "<c-m>", function() harpoon:list():select(1) end)
+            vim.keymap.set("n", "<c-n>", function() harpoon:list():select(2) end)
             vim.keymap.set("n", "<c-k>", function() harpoon:list():select(3) end)
-            vim.keymap.set("n", "<c-l>", function() harpoon:list():select(4) end)
+            vim.keymap.set("n", "<c-h>", function() harpoon:list():select(4) end)
 
             -- Toggle previous & next buffers stored within Harpoon list
             vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)

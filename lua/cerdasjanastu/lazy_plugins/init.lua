@@ -52,6 +52,11 @@ return {
     },
 
     {
+        'fei6409/log-highlight.nvim',
+        opts = {},
+    },
+
+    {
         "folke/todo-comments.nvim",
         event = "VimEnter",
         dependencies = {
