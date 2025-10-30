@@ -93,17 +93,16 @@ return {
             )
 
             local servers = {
-                pyright = {},
-                clangd = {},
-                ruff = {
-                    init_options = {
-                        settings = {
-                            -- example settings
-                            lint = { enable = true },
-                            format = { enable = true },
-                        },
-                    },
-                },
+                -- pyright = {},
+                -- ruff = {
+                --     init_options = {
+                --         settings = {
+                --             -- example settings
+                --             lint = { enable = true },
+                --             format = { enable = true },
+                --         },
+                --     },
+                -- },
                 lua_ls = {
                     settings = {
                         Lua = {
@@ -113,12 +112,11 @@ return {
                         },
                     },
                 },
-                ts_ls = {},
-                gopls = {},
-                yamlls = {},
-                tailwindcss = {
-                    filetypes = { "html", "mdx", "javascript", "typescript", "javascriptreact", "typescriptreact", "vue", "svelte" }
-                }
+                -- ts_ls = {},
+                -- gopls = {},
+                -- tailwindcss = {
+                --     filetypes = { "html", "mdx", "javascript", "typescript", "javascriptreact", "typescriptreact", "vue", "svelte" }
+                -- }
             }
 
             require("fidget").setup({})
@@ -127,10 +125,10 @@ return {
             local ensure_installed = vim.tbl_keys(servers or {})
             vim.list_extend(ensure_installed, {
                 "lua_ls",
-                "pyright",
-                "ruff",
-                "html",
-                "cssls",
+                -- "pyright",
+                -- "ruff",
+                -- "html",
+                -- "cssls",
             })
 
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
@@ -145,12 +143,10 @@ return {
                 ensure_installed = ensure_installed,
                 automatic_installation = {},
                 automatic_enable = {
-                    "clangd",
-                    "pyright",
-                    "ruff",
                     "lua_ls",
-                    "gopls",
-                    "yaml",
+                    -- "pyright",
+                    -- "ruff",
+                    -- "gopls",
                 },
             })
 

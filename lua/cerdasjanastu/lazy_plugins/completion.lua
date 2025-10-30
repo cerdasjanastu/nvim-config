@@ -116,7 +116,7 @@ return {
             fuzzy = {
                 implementation = "prefer_rust",
                 max_typos = function(s) return math.floor(#s / 4) end,
-                use_frecency = true,
+                -- use_frecency = true,
                 use_proximity = true,
             }
         },

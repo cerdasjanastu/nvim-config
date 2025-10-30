@@ -1,8 +1,6 @@
 return {
     {
         "nvim-telescope/telescope.nvim",
-        name = "telescope",
-        tag = "0.1.8",
         dependencies = {
             {
                 "nvim-lua/plenary.nvim",
@@ -15,10 +13,6 @@ return {
                     return vim.fn.executable "make" == 1
                 end,
             },
-            {
-                "nvim-telescope/telescope-fzf-native.nvim",
-                build = "make",
-            },
         },
         config = function()
             require("telescope").setup({
@@ -26,6 +20,8 @@ return {
                     layout_stategy = "horizontal",
                     sorting_strategy = "ascending",
                     layout_config = {
+                        width = 0.99,
+                        height = 0.99,
                         horizontal = {
                             prompt_position = "top",
                         }
@@ -48,7 +44,7 @@ return {
                 }
             })
 
-            require("telescope").load_extension("fzf")
+            pcall(require('telescope').load_extension, 'fzf')
             local builtin = require("telescope.builtin")
 
             vim.keymap.set("n", "<leader>sf", function() builtin.find_files({ hidden = true }) end, {})
