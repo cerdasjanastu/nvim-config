@@ -85,4 +85,13 @@ return {
             end, {})
         end
     },
+
+    {
+        "nvim-telescope/telescope-media-files.nvim",
+        dependencies = { "nvim-telescope/telescope.nvim" },
+        config = function()
+            pcall(require("telescope").load_extension("media_files"))
+            -- vim.keymap.set("n", "<leader>sm", function() require("telescope").extensions.media_files.media_files() end, {})
+        end
+    }
 }
