@@ -27,6 +27,10 @@ return {
             },
             go = { "gofmt" },
             py = { "ruff" },
+            json = { "jq" },
+            sql = { "sleek" },
+            xml = { "xmlformatter" },
+            -- xml = { "prettierd" },
         },
         -- Set default options
         default_format_opts = {
@@ -38,6 +42,17 @@ return {
         formatters = {
             shfmt = {
                 prepend_args = { "-i", "2" },
+            },
+            xmlformatter = {
+                prepend_args = {
+                    "--indent", "4",
+                    "--selfclose",
+                    "--preserve", "script,style",  -- preserve these
+                    "--blanks",  -- preserve blank
+                    "--preserve-attribute",
+                    "--disable-inlineformatting",
+                    "--disable-correction",
+                },
             },
         },
     },
