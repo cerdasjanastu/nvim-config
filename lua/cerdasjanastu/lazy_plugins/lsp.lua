@@ -7,20 +7,20 @@ return {
         opts = {
             library = {
                 -- Load luvit types when the `vim.uv` word is found
-                { path = "luvit-meta/library", words = { "vim%.uv" } },
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
             },
         },
     },
 
-    { "Bilal2453/luvit-meta", lazy = true },
+    -- { "Bilal2453/luvit-meta", lazy = true },
 
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            { "williamboman/mason.nvim", config = true },
-            "williamboman/mason-lspconfig.nvim",
+            { "mason-org/mason.nvim", opts = {} },
+            "mason-org/mason-lspconfig.nvim",
             "WhoIsSethDaniel/mason-tool-installer.nvim",
-            "j-hui/fidget.nvim",
+            { "j-hui/fidget.nvim", opts = {} },
             -- 'hrsh7th/cmp-nvim-lsp',
             "saghen/blink.cmp",
         },
@@ -29,8 +29,9 @@ return {
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("cerdas-lsp-attach", { clear = true }),
                 callback = function(event)
-                    local map = function(keys, func, desc)
-                        vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+                    local map = function(keys, func, desc, mode)
+                        mode = mode or "n"
+                        vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
                     end
 
                     -- Jump to the definition of the word under your cursor.
@@ -77,15 +78,16 @@ return {
                     local client = vim.lsp.get_client_by_id(event.data.client_id)
                     vim.diagnostic.config({ virtual_text = true })
                     -- Toggle inlay hint
-                    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+                    if client and client.supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
                         map("<leader>th", function()
-                            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+                            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
                         end, "[T]oggle Inlay [H]ints")
                     end
                 end,
             })
 
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
             capabilities = vim.tbl_deep_extend(
                 "force",
                 capabilities,
@@ -114,9 +116,11 @@ return {
                 },
                 -- ts_ls = {},
                 -- gopls = {},
+                -- jsonls = {},
                 -- tailwindcss = {
                 --     filetypes = { "html", "mdx", "javascript", "typescript", "javascriptreact", "typescriptreact", "vue", "svelte" }
-                -- }
+                -- },
+                -- postgres_lsp = {},
             }
 
             require("fidget").setup({})
@@ -140,13 +144,16 @@ return {
                         require("lspconfig")[server_name].setup(server)
                     end,
                 },
-                ensure_installed = ensure_installed,
-                automatic_installation = {},
+                ensure_installed = {},
+                automatic_installation = false,
                 automatic_enable = {
                     "lua_ls",
                     -- "pyright",
                     -- "ruff",
                     -- "gopls",
+                    -- "ts_ls",
+                    -- "jsonls",
+                    -- "postgres_lsp",
                 },
             })
 
