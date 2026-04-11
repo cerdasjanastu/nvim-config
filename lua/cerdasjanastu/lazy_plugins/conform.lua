@@ -25,12 +25,12 @@ return {
                 "prettier",
                 stop_after_first = true,
             },
-            go = { "gofmt" },
+            go = { "goimports" },
             py = { "ruff" },
             json = { "jq" },
             sql = { "sleek" },
-            xml = { "xmlformatter" },
-            -- xml = { "prettierd" },
+            -- xml = { "xmlformatter" },
+            xml = { "prettierd" },
         },
         -- Set default options
         default_format_opts = {
